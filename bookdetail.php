@@ -11,8 +11,8 @@
   </head>
   <body>
     <?php
-    $idKniha = filter_input(INPUT_GET, "idknihy");
-    $sql = $mysqli->prepare("SELECT * FROM knihy k JOIN autor_knihy ak ON k.id_kniha = ak.id_knihy WHERE k.id_knihy = ?");
+    $idKniha = filter_input(INPUT_GET, "id_kniha");
+    $sql = $mysqli->prepare("SELECT * FROM knihy k JOIN autor_knihy ak ON k.id_kniha = ak.id_knihy WHERE k.id_kniha = ?");
     $sql ->bind_param("s", $idKniha);
     $sql ->execute();
     $book = $sql->get_result()->fetch_assoc();
