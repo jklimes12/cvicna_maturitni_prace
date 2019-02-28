@@ -10,7 +10,6 @@ $sql = $mysqli->prepare("SELECT id_kniha, nazev, strany, rok_vydani, a.id_autor,
 $sql ->bind_param("s", $idKniha);
 $sql ->execute();
 $book = $sql->get_result()->fetch_assoc();
-var_dump($book)
 ?>
 
 <form>
@@ -29,18 +28,23 @@ var_dump($book)
     <input type="number" name="rok_vydani" class="form-control" id="RokVydani" aria-describedby="RokVydani" placeholder="0" value="<?php echo $book["rok_vydani"] ?>">
   </div>
   <?php
-    $sql2 = $mysqli-> prepare();
-    $sql2 =   
+    $sql2 = $mysqli->prepare("SELECT *
+                               FROM autor");
+    $sql2->execute();
+    $autors = $sql2->get_result();
     ?>
 
 
   <select class="custom-select">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <?php
+      while ($autor = $autors -> fetch_assoc()) {?>
+
+        <option value="<?php echo $autor["id_autor"];?>">
+          <?php echo $autor["jmeno"]. " " .$autor["prijmeni"];?>
+        </option>
+      <?php } ?>
+  </select>
+  <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </form>
 
 <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "footer.php" ?>
