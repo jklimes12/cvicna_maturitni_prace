@@ -42,7 +42,7 @@
                    <th><?php echo $book["jmeno"];?></th>
                    <th><?php echo $book["prijmeni"];?></th>
                    <th><?php echo $book["strany"]; echo " stran";?></th>
-                   <th><a href="editbook.php?id_kniha=<?php echo $book["id_kniha"]; ?>">edit</a></th>
+                   <th><a class="btn btn-primary" href="editbook.php?id_kniha=<?php echo $book["id_kniha"]; ?>">edit</a></th>
                 </tr>
                 <?php
               };
