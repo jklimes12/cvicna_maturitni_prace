@@ -1,8 +1,7 @@
 <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "header.php" ?>
-
       <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <div class=" d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="mt-4 h2">Knihy</h1>
+        <h1 class="mt-4 h2">autor</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -15,42 +14,27 @@
         </div>
       </div>
 
-      <h2>Section title</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th>id_knihy</th>
-              <th>nazev</th>
-              <th>zanr</th>
+              <th>id autor</th>
               <th>jméno</th>
               <th>příjmení</th>
-              <th>strany</th>
-              <th>upravit knihy</th>
-              <th>upravit autor</th>
               <th>upravit autor</th>
             </tr>
           </thead>
           <?php $sql = $mysqli->prepare("SELECT *
-          FROM knihy b
-          JOIN autor_knihy ab ON b.id_kniha = ab.id_knihy
-          JOIN autor a ON ab.id_autor = a.id_autor
-          JOIN knizky_zanr zk ON b.id_zanr = zk.id_zanr
-          JOIN zanr z ON zk.id_zanr = z.id_zanr;");
+          FROM autor");
                       $sql -> execute();
                       $result = $sql->get_result();
                       while ($book = $result->fetch_assoc()) {
                 ?>
                 <tr>
-                   <th><?php echo $book["id_kniha"];?></th>
-                   <th><?php echo $book["nazev"];?></th>
-                   <th><?php echo $book["zanr"];?></th>
+                   <th><?php echo $book["id_autor"];?></th>
                    <th><?php echo $book["jmeno"];?></th>
                    <th><?php echo $book["prijmeni"];?></th>
-                   <th><?php echo $book["strany"]; echo " stran";?></th>
-                   <th><a class="btn btn-primary" href="editbook.php?id_kniha=<?php echo $book["id_kniha"]; ?>">edit</a></th>
-                   <th><a class="btn btn-primary" href="editautor.php?id_autor=<?php echo $book["id_autor"]; ?>">edit</a></th>
-                   <th><a class="btn btn-primary" href="editzanr.php?id_zanr=<?php echo $book["id_zanr"]; ?>">edit</a></th>
+                   <th><a class="btn btn-primary" href="admin/editautor.php?id_autor=<?php echo $book["id_autor"]; ?>">edit</a></th>
                 </tr>
                 <?php
               };
@@ -61,4 +45,4 @@
 
       </div>
 
-<?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "footer.php" ?>
+      <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "footer.php" ?>
