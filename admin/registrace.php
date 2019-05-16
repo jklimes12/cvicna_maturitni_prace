@@ -1,38 +1,36 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "database.php";
-$submit = filter_input(INPUT_POST, "loginSubmit");
+session_start();
+$submit = filter_input(INPUT_POST, "registrationSubmit");
  ?>
  <?php
 
-$sql = $mysqli->prepare("SELECT * FROM user WHERE email, password ");
-$sql ->bind_param("ss", $email , $hashedPassword);
-$sql ->execute();
-
-    if ($submit == "Odeslat") {
+    if (!empty($submit)) {
       echo "Formulář je odeslán";
-      $login = filter_input(INPUT_POST, "email");
+
+      $email = filter_input(INPUT_POST, "email");
+      $name = filter_input(INPUT_POST, "name");
       $password = filter_input(INPUT_POST, "password");
 
       $salt = "huiasgblau19aszdu23asdh65sfdgr8s§dahdlsgaf";
+      $hashedPassword = MD5($password . $salt);
 
-      $result = mysqlli_querry($mysli, "SELECT * FROM user WHERE email = '". $email."' and password = '". md5($password . $salt)"'");
+      $sqlI = $mysqli->prepare("
+      INSERT INTO user (name, email , password)
+      VALUES (?,?,?);
+      ");
 
-      if (($login == $email) && ($hashedPassword == $password)) {
-        session_start();
-        $_SESSION["login"] = $email;
-        header('location: index.php');
-      }
-      else {
-        echo "</br>Špatné přihlašovací údaje";
-      }
-    }
-    ?>
+      $sqlI->bind_param('sss',$name , $email , $hashedPassword);
+      $sqlI->execute();
+}
+?>
 
 <link href="//maxcdn.bootstrapcdno/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link href="style.css" rel="stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
+
 
 <div class = "container form-signin">
 
@@ -46,10 +44,11 @@ $sql ->execute();
       <p>přihlášení</p>
     </div>
     <!-- Login Form -->
-    <form action="login.php" method="post">
-      <input type="email" name="login" class="fadeIn second" placeholder="login"id="login" >
-      <input type="password" name="password" class="fadeIn third"  placeholder="password" id="password">
-      <input type="submit" name="loginSubmit" class="fadeIn fourth" value="Odeslat">
+    <form action="registrace.php" method="post">
+      <input type="name" name="name" class="fadeIn second" placeholder="name"id="name" >
+      <input type="email" name="email" class="fadeIn second" placeholder="email"id="login" >
+      <input type="password" name="password" class="fadeIn third" placeholder="password" id="password">
+      <input type="submit" name="registrationSubmit" class="fadeIn fourth" value="registrovat">
     </form>
 
     <!-- Remind Passowrd -->

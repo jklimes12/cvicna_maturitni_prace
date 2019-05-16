@@ -1,5 +1,10 @@
 <?php
   require_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR. ".." . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "database.php";
+  session_start();
+  var_dump($_SESSION);
+  if (!isset($_SESSION["login"])) {
+    header("location: login.php");
+  }
  ?>
 
 <html lang="en"><head>
