@@ -1,0 +1,55 @@
+UPDATE autor
+      SET
+      jmeno = ?,
+      prijmeni = ?
+    WHERE id_autor = ?
+
+SELECT *
+    FROM autor
+    WHERE id_autor = ?
+
+UPDATE knihy
+  SET
+    nazev = ?,
+    strany = ?,
+    rok_vydani = ?
+  WHERE id_kniha = ?
+
+SELECT *
+    FROM zanr
+    WHERE id_zanr = ?
+
+SELECT id_kniha, nazev, strany, rok_vydani, a.id_autor, a.jmeno, a.prijmeni
+    FROM knihy k
+    JOIN autor_knihy ak ON k.id_kniha = ak.id_knihy
+    JOIN autor a ON a.id_autor = ak.id_autor
+    WHERE k.id_kniha = ?
+
+SELECT *
+    FROM autor
+
+UPDATE zanr
+    SET
+      zanr = ?
+    WHERE id_zanr = ?
+
+WHERE id_zanr = ?
+  SELECT *
+  FROM zanr
+
+SELECT id_kniha,nazev,strany, author.jmeno, autor.primeni, zanr.zanr, zanr.id_zanr, autor.id_autor
+  FROM knihy
+  JOIN autor_knihy USING (id_knihy)
+  JOIN autor USING (id_autor)
+  JOIN knihy_zanr USING (id_knihy)
+  JOIN zanr USING (id_zanr)
+
+SELECT * FROM autor WHERE id_autor = ?
+
+SELECT * FROM knihy k JOIN autor_knihy ak ON k.id_kniha = ak.id_knihy WHERE ak.id_autor = ?
+
+SELECT id_autor, jmeno, prijmeni FROM `autor`
+
+SELECT * FROM knihy k JOIN autor_knihy ak ON k.id_kniha = ak.id_knihy WHERE k.id_kniha = ?
+
+SELECT id_kniha, nazev, strany FROM `knihy`"
