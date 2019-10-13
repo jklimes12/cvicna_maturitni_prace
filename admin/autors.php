@@ -13,7 +13,11 @@
           </button>
         </div>
       </div>
-
+<?php
+$sqluser2 = "SELECT * FROM user;";
+$userResult = Database::query($sqluser2);
+$result = $userResult->fetch_assoc()
+?>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -21,20 +25,24 @@
               <th>id autor</th>
               <th>jméno</th>
               <th>příjmení</th>
-              <th>upravit autor</th>
+              <th><?php if ($result["id_role"] == 1) {?>upravit autor <?php }; ?></th>
             </tr>
           </thead>
-          <?php $sql = $mysqli->prepare("SELECT *
+          <?php
+          $sqlautor2 = "SELECT * FROM autor;";
+          $autorResult = Database::query($sqlautor2);
+           /*$sql = $mysqli->prepare("SELECT *
           FROM autor");
                       $sql -> execute();
-                      $result = $sql->get_result();
-                      while ($book = $result->fetch_assoc()) {
+                      $result = $sql->get_result();*/
+                      while ($book = $autorResult->fetch_assoc()) {
                 ?>
                 <tr>
                    <th><?php echo $book["id_autor"];?></th>
                    <th><?php echo $book["jmeno"];?></th>
                    <th><?php echo $book["prijmeni"];?></th>
-                   <th><a class="btn btn-primary" href="admin/editautor.php?id_autor=<?php echo $book["id_autor"]; ?>">edit</a></th>
+                   <th><?php if ($result["id_role"] == 1) {
+                    ?><a class="btn btn-primary" href="editautor.php?id_autor=<?php echo $book["id_autor"]; ?>">edit</a><?php };?></th>
                 </tr>
                 <?php
               };

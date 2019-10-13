@@ -1,29 +1,31 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "database.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "Database.php";
+session_start();
 $submit = filter_input(INPUT_POST, "loginSubmit");
  ?>
  <?php
 
-$sql = $mysqli->prepare("SELECT * FROM user WHERE email, password ");
-$sql ->bind_param("ss", $email , $hashedPassword);
-$sql ->execute();
 
-    if ($submit == "Odeslat") {
+    if (!empty($submit)) {
       echo "Formulář je odeslán";
-      $login = filter_input(INPUT_POST, "email");
+      $email = filter_input(INPUT_POST, "login");
       $password = filter_input(INPUT_POST, "password");
 
-      $salt = "huiasgblau19aszdu23asdh65sfdgr8s§dahdlsgaf";
+      define('SALT', "huiasgblau19aszdu23asdh65sfdgr8s§dahdlsgaf");
+      $hashedPassword = md5($password . SALT);
 
-      $result = mysqlli_querry($mysli, "SELECT * FROM user WHERE email = '". $email."' and password = '". md5($password . $salt)"'");
+      $query = "SELECT * FROM user WHERE email LIKE '$email' AND password LIKE '$hashedPassword'";
+      echo $query;
+      $userResult = Database::query($query);
+      $user = $userResult->fetch_assoc();
 
-      if (($login == $email) && ($hashedPassword == $password)) {
-        session_start();
+      if (($email == $user["email"]) && ($hashedPassword == $user["password"])) {
         $_SESSION["login"] = $email;
         header('location: index.php');
       }
       else {
-        echo "</br>Špatné přihlašovací údaje";
+        echo "</br>Špatné přihlašovací údaje";?><br><?php
+        echo $hashedPassword;
       }
     }
     ?>

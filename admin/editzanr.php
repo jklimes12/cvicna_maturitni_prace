@@ -1,5 +1,13 @@
 <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "header.php" ?>
 
+<?php
+$sqluser = $mysqli->prepare("SELECT * FROM user WHERE email = ?;");
+$sqluser->bind_param("s", $_SESSION["login"]);
+$sqluser->execute();
+$user = $sqluser->get_result()->fetch_assoc();
+if ($user["id_role"] == 1){
+?>
+
  <h1 class="mt-5">Edit</h1>
 <?php
 
@@ -36,5 +44,9 @@ $zanr = $sql->get_result()->fetch_assoc();
 <?php }
 else {
   echo "není zadáno id zanru";
+}
+}
+else {
+echo "</br></br>nemáš dostatečné práva :*";
 }?>
 <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "footer.php" ?>

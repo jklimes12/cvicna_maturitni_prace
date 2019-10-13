@@ -14,26 +14,38 @@
           </button>
         </div>
       </div>
+      <?php
 
+      $sqluser2 = "SELECT * FROM user;";
+      $userResult = Database::query($sqluser2);
+      $result = $userResult->fetch_assoc()
+
+      /*$sqluser = $mysqli->prepare("SELECT * FROM user WHERE email = ?;");
+      $sqluser->bind_param("s", $_SESSION["login"]);
+      $sqluser->execute();
+      $user = $sqluser->get_result()->fetch_assoc();
+      */?>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
               <th>id zanr</th>
               <th>zanr</th>
-              <th>upravit zanr</th>
+              <th><?php if ($result["id_role"] == 1) {?> upravit zanr <?php }; ?></th>
             </tr>
           </thead>
-          <?php $sql = $mysqli->prepare("SELECT *
-          FROM zanr");
-                      $sql -> execute();
-                      $result = $sql->get_result();
-                      while ($zanr = $result->fetch_assoc()) {
+
+          <?php
+
+          $sqlzanr = "SELECT * FROM zanr;";
+          $zanrResult = Database::query($sqlzanr);
+          while ($zanr = $zanrResult->fetch_assoc()) {
                 ?>
                 <tr>
                    <th><?php echo $zanr["id_zanr"];?></th>
                    <th><?php echo $zanr["zanr"];?></th>
-                   <th><a class="btn btn-primary" href="admin/editzanr.php?id_zanr=<?php echo $zanr["id_zanr"]; ?>">edit</a></th>
+                   <th><?php if ($result["id_role"] == 1) {?>
+                     <a class="btn btn-primary" href="admin/editzanr.php?id_zanr=<?php echo $zanr["id_zanr"]; ?>">edit</a><?php }; ?></th>
                 </tr>
                 <?php
               };

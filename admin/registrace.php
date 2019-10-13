@@ -41,7 +41,7 @@ $submit = filter_input(INPUT_POST, "registrationSubmit");
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <p>přihlášení</p>
+      <p>registrace</p>
     </div>
     <!-- Login Form -->
     <form action="registrace.php" method="post">

@@ -15,6 +15,18 @@
         </div>
       </div>
 
+      <?php
+      $query = "SELECT * FROM user WHERE email = '$_SESSION[login]'";
+      $userResult = Database::query($query);
+      $user = $userResult->fetch_assoc();
+
+
+      /*$sqluser = $mysqli->prepare("SELECT * FROM user WHERE email = ?;");
+      $sqluser->bind_param("s", $_SESSION["login"]);
+      $sqluser->execute();
+      $user = $sqluser->get_result()->fetch_assoc();
+      */?>
+
       <h2>Section title</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -26,20 +38,24 @@
               <th>jméno</th>
               <th>příjmení</th>
               <th>strany</th>
+              <?php if ($user["id_role"] == 1) {?>
               <th>upravit knihy</th>
               <th>upravit autor</th>
-              <th>upravit autor</th>
+              <th>upravit žánr</th>
+              <?php }; ?>
             </tr>
           </thead>
-          <?php $sql = $mysqli->prepare("SELECT *
+
+          <?php
+          $sqlBooks = "SELECT *
           FROM knihy b
           JOIN autor_knihy ab ON b.id_kniha = ab.id_knihy
           JOIN autor a ON ab.id_autor = a.id_autor
           JOIN knizky_zanr zk ON b.id_zanr = zk.id_zanr
-          JOIN zanr z ON zk.id_zanr = z.id_zanr;");
-                      $sql -> execute();
-                      $result = $sql->get_result();
-                      while ($book = $result->fetch_assoc()) {
+          JOIN zanr z ON zk.id_zanr = z.id_zanr;";
+          $resultBooks = Database::query($sqlBooks);
+
+          while ($book = $resultBooks->fetch_assoc()) {
                 ?>
                 <tr>
                    <th><?php echo $book["id_kniha"];?></th>
@@ -48,17 +64,16 @@
                    <th><?php echo $book["jmeno"];?></th>
                    <th><?php echo $book["prijmeni"];?></th>
                    <th><?php echo $book["strany"]; echo " stran";?></th>
+                   <?php if ($user["id_role"] == 1) {?>
                    <th><a class="btn btn-primary" href="editbook.php?id_kniha=<?php echo $book["id_kniha"]; ?>">edit</a></th>
                    <th><a class="btn btn-primary" href="editautor.php?id_autor=<?php echo $book["id_autor"]; ?>">edit</a></th>
                    <th><a class="btn btn-primary" href="editzanr.php?id_zanr=<?php echo $book["id_zanr"]; ?>">edit</a></th>
+                   <?php }; ?>
                 </tr>
                 <?php
               };
              ?>
         </table>
-
-
-
       </div>
 
 <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "footer.php" ?>

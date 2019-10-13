@@ -21,8 +21,8 @@ class Database {
 		return self::$_instance;
 	}
 
-public static function query($query){
-  $result = self::getInstance()->getConnection()->query($query);
+puplic static function query($query){
+  $result = self::getInstance()->getConnectoin()->query($query);
   return $result;
 }
 
@@ -32,7 +32,7 @@ public static function query($query){
 		$this->_connection = new mysqli($this->_host, $this->_username,
 			$this->_password, $this->_database);
 
-  $this->_connection->set_charset("utf8mb4");
+    $this->_connection->set_charset("utf8mb4");
 
 		// Error handling
 		if(mysqli_connect_error()) {

@@ -1,7 +1,7 @@
 <?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "header.php" ?>
       <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
       <div class=" d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="mt-4 h2">žánr</h1>
+        <h1 class="mt-4 h2">Knihy</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -13,6 +13,12 @@
           </button>
         </div>
       </div>
+      <?php
+
+      $sqluser2 = "SELECT * FROM user;";
+      $userResult = Database::query($sqluser2);
+      $result = $userResult->fetch_assoc()
+?>
 
       <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -29,16 +35,19 @@
               <th>rok vydaní</th>
             </tr>
           </thead>
-          <?php $sql = $mysqli->prepare("SELECT b.id_kniha, b.nazev, b.strany, b.rok_vydani, a.jmeno, a.prijmeni, a.id_autor, z.id_zanr, z.zanr
+
+          <?php
+
+          $sqluser = "SELECT *
           FROM knihy b
           JOIN autor_knihy ab ON b.id_kniha = ab.id_knihy
           JOIN autor a ON ab.id_autor = a.id_autor
           JOIN knizky_zanr kz ON b.id_zanr = kz.id_zanr
-          JOIN zanr z ON kz.id_zanr = z.id_zanr");
-                      $sql -> execute();
-                      $result = $sql->get_result();
-                      while ($all = $result->fetch_assoc()) {
+          JOIN zanr z ON kz.id_zanr = z.id_zanr";
+          $userResult = Database::query($sqluser);
+          while ($all = $userResult->fetch_assoc()) {
                 ?>
+
                 <tr>
                   <td><?php echo $all["id_autor"];?></td>
                   <td><?php echo $all["id_zanr"];?></td>
@@ -49,7 +58,8 @@
                    <td><?php echo $all["nazev"];?></td>
                    <td><?php echo $all["strany"];?></td>
                    <td><?php echo $all["rok_vydani"];?></td>
-                   <td><a class="btn btn-primary" href="admin/editbook.php?id_kniha=<?php echo $all["id_kniha"]; ?>">edit</a></td>
+                   <td><?php if ($result["id_role"] == 1) {
+                   ?><a class="btn btn-primary" href="admin/editbook.php?id_kniha=<?php echo $all["id_kniha"]; ?>">edit</a> <?php }; ?></td>
                 </tr>
                 <?php
               };
