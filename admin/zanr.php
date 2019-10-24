@@ -16,15 +16,10 @@
       </div>
       <?php
 
-      $sqluser2 = "SELECT * FROM user;";
-      $userResult = Database::query($sqluser2);
-      $result = $userResult->fetch_assoc()
-
-      /*$sqluser = $mysqli->prepare("SELECT * FROM user WHERE email = ?;");
-      $sqluser->bind_param("s", $_SESSION["login"]);
-      $sqluser->execute();
-      $user = $sqluser->get_result()->fetch_assoc();
-      */?>
+      $query = "SELECT * FROM user WHERE email = '$_SESSION[login]'";
+      $userResult = Database::query($query);
+      $result = $userResult->fetch_assoc();
+      ?>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -45,7 +40,7 @@
                    <th><?php echo $zanr["id_zanr"];?></th>
                    <th><?php echo $zanr["zanr"];?></th>
                    <th><?php if ($result["id_role"] == 1) {?>
-                     <a class="btn btn-primary" href="admin/editzanr.php?id_zanr=<?php echo $zanr["id_zanr"]; ?>">edit</a><?php }; ?></th>
+                     <a class="btn btn-primary" href="editzanr.php?id_zanr=<?php echo $zanr["id_zanr"]; ?>">edit</a><?php }; ?></th>
                 </tr>
                 <?php
               };

@@ -15,9 +15,9 @@
       </div>
       <?php
 
-      $sqluser2 = "SELECT * FROM user;";
-      $userResult = Database::query($sqluser2);
-      $result = $userResult->fetch_assoc()
+      $query = "SELECT * FROM user WHERE email = '$_SESSION[login]'";
+      $userResult = Database::query($query);
+      $result = $userResult->fetch_assoc();
 ?>
 
       <div class="table-responsive">
@@ -59,7 +59,7 @@
                    <td><?php echo $all["strany"];?></td>
                    <td><?php echo $all["rok_vydani"];?></td>
                    <td><?php if ($result["id_role"] == 1) {
-                   ?><a class="btn btn-primary" href="admin/editbook.php?id_kniha=<?php echo $all["id_kniha"]; ?>">edit</a> <?php }; ?></td>
+                   ?><a class="btn btn-primary" href="editbook.php?id_kniha=<?php echo $all["id_kniha"]; ?>">edit</a> <?php }; ?></td>
                 </tr>
                 <?php
               };

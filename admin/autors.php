@@ -14,9 +14,9 @@
         </div>
       </div>
 <?php
-$sqluser2 = "SELECT * FROM user;";
-$userResult = Database::query($sqluser2);
-$result = $userResult->fetch_assoc()
+$query = "SELECT * FROM user WHERE email = '$_SESSION[login]'";
+$userResult = Database::query($query);
+$result = $userResult->fetch_assoc();
 ?>
       <div class="table-responsive">
         <table class="table table-striped table-sm">

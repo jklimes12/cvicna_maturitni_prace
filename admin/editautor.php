@@ -1,40 +1,35 @@
-<?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "header.php" ?>
+<?php include_once __DIR__ . DIRECTORY_SEPARATOR . "inc" . DIRECTORY_SEPARATOR . "header.php"
+?><?php
 
-<?php
-$sqluser = $mysqli->prepare("SELECT * FROM user WHERE email = ?;");
-$sqluser->bind_param("s", $_SESSION["login"]);
-$sqluser->execute();
-$user = $sqluser->get_result()->fetch_assoc();
-if ($user["id_role"] == 1){
-
-$idautor = filter_input(INPUT_GET, "id_autor");
-?><h1 class="mt-5">Edit</h1>
-<?php
-if ($idautor != NULL ) {
-$submit = filter_input(INPUT_POST, "submit");
-
-if ($submit == "potvrdit") {
-  $jmeno = filter_input(INPUT_POST, "jmeno");
-  $prijmeni = filter_input(INPUT_POST, "prijmeni");
-  $sqlU = $mysqli->prepare("UPDATE autor
-                            SET
-                              jmeno = ?,
-                              prijmeni = ?
-                            WHERE id_autor = ? ");
-$sqlU->bind_param( "ssd", $jmeno, $prijmeni, $idautor);
-$sqlU->execute();
-
-echo "provedeno";
-}
+$query = "SELECT * FROM user WHERE email = '$_SESSION[login]'";
+  $userResult = Database::query($query);
+  $roleResult = $userResult->fetch_assoc();
 
 
-$sql = $mysqli->prepare("SELECT *
-                         FROM autor
-                         WHERE id_autor = ?
-                         ");
-$sql ->bind_param("d", $idautor);
-$sql ->execute();
-$autor = $sql->get_result()->fetch_assoc();
+if ($roleResult["id_role"] == 1){
+  $idautor = filter_input(INPUT_GET, "id_autor");
+  ?><h1 class="mt-5">Edit</h1>
+  <?php
+  if ($idautor != NULL ) {
+    $submit = filter_input(INPUT_POST, "submit");
+
+    if ($submit == "potvrdit") {
+      $jmeno = filter_input(INPUT_POST, "jmeno");
+      $prijmeni = filter_input(INPUT_POST, "prijmeni");
+
+      $sqlEdit = "UPDATE autor SET
+                              jmeno = '$jmeno',
+                              prijmeni = '$prijmeni'
+                            WHERE id_autor = '$idautor' ";
+      $editResult = Database::query($sqlEdit);
+      var_dump($editResult);
+      }
+
+      $sqlAutor = "SELECT *
+                           FROM autor
+                           WHERE id_autor = $idautor";
+      $autorResult = Database::query($sqlAutor);
+      $autor = $autorResult->fetch_assoc();
 
 ?>
 
